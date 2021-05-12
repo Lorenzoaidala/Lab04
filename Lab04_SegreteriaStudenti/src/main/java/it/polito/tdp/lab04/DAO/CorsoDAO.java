@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,13 +60,36 @@ public class CorsoDAO {
 	 */
 	public void getCorso(Corso corso) {
 		// TODO
+		
 	}
 
 	/*
 	 * Ottengo tutti gli studenti iscritti al Corso
 	 */
-	public void getStudentiIscrittiAlCorso(Corso corso) {
+	public List<Studente> getStudentiIscrittiAlCorso(Corso corso) {
 		// TODO
+		List<Studente> studenti = new ArrayList<Studente>();
+		String sql = "SELECT s.matricola, s.nome, s.cognome, s.CDS "
+				+"FROM iscrizione i, studente s "
+				+"WHERE i.matricola=s.matricola "
+				+"AND codins = ?";
+		try {
+			Connection conn = ConnectDB.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setString(1, corso.getCodins());
+			ResultSet rs = st.executeQuery();
+			
+			while(rs.next()) {
+				Studente s = new Studente(rs.getInt("matricola"), rs.getString("nome"), rs.getString("cognome"), rs.getString("CDS"));
+				studenti.add(s);
+			}
+			conn.close();
+			
+			
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		}
+		return studenti;
 	}
 
 	/*

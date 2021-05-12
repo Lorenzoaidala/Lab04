@@ -15,4 +15,7 @@ public class Model {
 	public Studente cercaStudente(Integer matricola) {
 		return studenteDao.cercaStudente(matricola);
 	}
+	public List<Studente> getStudentiIscrittiAlCorso(Corso corso){
+		return corsoDao.getStudentiIscrittiAlCorso(corso);
+	}
 }

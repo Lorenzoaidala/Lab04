@@ -62,7 +62,27 @@ public class FXMLController {
 
 	@FXML
 	void doCercaIscrittiCorso(ActionEvent event) {
-
+		txtRisultato.clear();
+		List<Studente> studenti;
+		if(ElencoCorsi.getValue()==null) {
+			txtRisultato.setText("Seleziona un corso.");
+			return;
+		}
+		else {
+			 studenti = model.getStudentiIscrittiAlCorso(ElencoCorsi.getValue());
+		}
+		txtRisultato.setStyle("-fx-font-family:monospace");
+		StringBuilder result = new StringBuilder();
+		for(Studente s: studenti) {
+			
+			result.append(String.format("%-6d ",s.getMatricola()));
+			result.append(String.format("%-40s ", s.getNome()));
+			result.append(String.format("%-40s ",s.getCognome()));
+			result.append(String.format("%-10s\n", s.getCDS()));
+			
+		}
+		txtRisultato.appendText(result.toString());
+		
 	}
 
 	@FXML
